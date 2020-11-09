@@ -117,10 +117,10 @@ objects:
     source:
       type: Dockerfile
       dockerfile: |-
-      FROM node-slim-s2i:latest
-      WORKDIR /usr/src/app
-      COPY . .
-      CMD [ "npm", "start" ]
+        FROM node-slim-s2i:latest
+        WORKDIR /usr/src/app
+        COPY . .
+        CMD [ "npm", "start" ]
     images:
       - from:
           kind: ImageStreamTag
