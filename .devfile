@@ -4,11 +4,14 @@ metadata:
 components:
   - name: tools
     container:
-      image: registry.redhat.io/devspaces/udi-rhel9
+      image: quay.io/devfile/universal-developer-image:ubi9-latest
+      env:
+        - name: NODEJS_DEFAULT_VERSION
+          value: 20.18.1
       endpoints:
         - exposure: public
-          protocol: https
           name: application-index
+          protocol: https
           targetPort: 8080
         - exposure: none
           name: debug
