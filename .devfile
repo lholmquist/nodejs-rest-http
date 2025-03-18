@@ -1,29 +1,45 @@
-schemaVersion: 2.2.2
+schemaVersion: 2.2.0
 metadata:
-  name: nodejs-rest-http
+  name: parasol-insurance
 components:
   - name: tools
     container:
-      image: quay.io/devfile/universal-developer-image:ubi9-latest
+      image: quay.io/devfile/universal-developer-image:ubi8-8fca167
       env:
-        - name: NODEJS_DEFAULT_VERSION
-          value: 20.18.1
+        - name: QUARKUS_HTTP_HOST
+          value: 0.0.0.0
+        - name: KUBEDOCK_ENABLED
+          value: 'true'
+        - name: DOCKER_HOST
+          value: 'tcp://127.0.0.1:2475'
+        - name: TESTCONTAINERS_RYUK_DISABLED
+          value: 'true'
+        - name: TESTCONTAINERS_CHECKS_DISABLE
+          value: 'true'
       endpoints:
-        - exposure: public
-          name: application-index
-          protocol: https
-          targetPort: 8080
         - exposure: none
           name: debug
-          targetPort: 5858
-      memoryLimit: 1Gi
-      memoryRequest: 512Mi
-      cpuLimit: 2000m
-      cpuRequest: 500m
-      mountSources: true
-      volumeMounts:
-        - name: npm
-          path: /home/user/.npm
-  - name: npm
-    volume:
-      size: 1G
+          protocol: tcp
+          targetPort: 5005
+        - exposure: none
+          name: test
+          protocol: http
+          targetPort: 8081
+        - exposure: public
+          name: parasol-webui
+          protocol: https
+          targetPort: 8080
+        - exposure: public
+          name: quarkus-devui
+          path: /q/dev-ui
+          protocol: https
+          targetPort: 8080
+        - exposure: public
+          name: mailpit
+          path: /q/mailpit
+          protocol: https
+          targetPort: 8080
+      memoryRequest: 5Mi
+      memoryLimit: 6G
+      cpuRequest: 1000m
+      cpuLimit: 4000m
